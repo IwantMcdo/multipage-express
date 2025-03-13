@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h1>Blog Posts</h1>
+    <nav>
+        <a href="/">Home</a> |
+        <a href="/about">About</a> |
+        <a href="/contact">Contact</a> |
+        <a href="/blog">Blog</a>
+    </nav>
+
+    <div id="blog-posts"></div>
+
+    <script>
+        async function fetchBlogPosts() {
+            try {
+                const response = await fetch('/api/posts');
+                const posts = await response.json();
+                
+                const blogContainer = document.getElementById('blog-posts');
+                blogContainer.innerHTML = posts.map(post => `
+                    <article>
+                        <h2>${post.title}</h2>
+                        <p>${post.content}</p>
+                    </article>
+                `).join('');
+            } catch (error) {
+                console.error('Error fetching blog posts:', error);
+            }
+        }
+
+        fetchBlogPosts();
+    </script>
+</body>
+</html>
